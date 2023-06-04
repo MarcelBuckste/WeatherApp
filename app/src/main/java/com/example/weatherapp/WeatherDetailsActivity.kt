@@ -38,13 +38,13 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val temp = String.format("%.0f", main.getDouble("temp") - 273.15) + "°C"
                 val tempMinMax = "H: " + String.format("%.0f", main.getDouble("temp_min") - 273.15) + "°C" + " T: " + String.format("%.0f", main.getDouble("temp_max") - 273.15) + "°C"
                 val address = weatherData.getString("name")
-                val description = weather.getString("description")
+                val description1 = weather.getString("description")
 
                 runOnUiThread {
                     findViewById<TextView>(R.id.location).text = address
                     findViewById<TextView>(R.id.temperatur).text = temp
                     findViewById<TextView>(R.id.highandlow).text = tempMinMax
-                    findViewById<TextView>(R.id.weatherState).text = description
+                    findViewById<TextView>(R.id.weatherState).text = description1
                 }
             } catch (e: Exception) {
                 runOnUiThread {
