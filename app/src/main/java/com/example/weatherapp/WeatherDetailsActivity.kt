@@ -36,7 +36,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val weather = weatherData.getJSONArray("weather").getJSONObject(0)
 
                 val temp = String.format("%.0f", main.getDouble("temp") - 273.15) + "°C"
-                val tempMinMax = "H: " + String.format("%.0f", main.getDouble("temp_min") - 273.15) + "°C" + " T: " + String.format("%.0f", main.getDouble("temp_max") - 273.15) + "°C"
+                val tempMinMax = "H: " + String.format("%.0f", main.getDouble("temp_min")) + "°C" + " T: " + String.format("%.0f", main.getDouble("temp_max")) + "°C"
                 val address = weatherData.getString("name")
                 val description1 = weather.getString("description")
 
@@ -55,6 +55,4 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
         thread.start()
     }
-
-
 }

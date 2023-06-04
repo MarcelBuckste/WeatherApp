@@ -4,30 +4,117 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/gradient_background">
+
+    <TextView
+        android:id="@+id/WeatherInf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Wetter"
+        android:textColor="#FFFFFF"
+        android:textSize="15pt" />
 
     <EditText
         android:id="@+id/etCityName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Stadtname" />
+        android:layout_marginTop="67dp"
+        android:textColorHint="#E4E4E4"
+        android:textColor="#E4E4E4"
+        android:hint="Stadt eingeben..." />
 
     <Button
         android:id="@+id/btnGetWeather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/etCityName"
+        android:layout_marginTop="11dp"
         android:text="Wetter abrufen" />
 
     <TextView
         android:id="@+id/tvWeatherData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnGetWeather"
-        android:layout_marginTop="16dp"
+        android:layout_below="@id/favoriten"
+        android:layout_marginTop="3dp"
         android:textSize="18sp" />
 
+    <TextView
+        android:id="@+id/favoriten"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnGetWeather"
+        android:layout_marginTop="11dp"
+        android:text="Favoriten:"
+        android:textColor="#FFFFFF"
+        android:textSize="10pt" />
 
+    <TextView
+        android:id="@+id/notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/etCityName"
+        android:layout_marginTop="3dp"
+        android:textColor="#F44336"
+        android:textSize="6pt" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/favoriten"
+        android:layout_marginTop="14dp"
+        android:background="@drawable/background_round_favorit"
+        android:padding="8dp">
+        <TextView
+            android:id="@+id/textViewCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stuttgart"
+            android:textSize="12pt"
+            android:layout_alignParentStart="true"/>
 
+        <TextView
+            android:id="@+id/favoriten_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="16°"
+            android:textSize="20pt"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/favoriten_hochtief"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/favoriten_temp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="0dp"
+            android:text="H: 24° T: 10°"
+            android:layout_marginBottom="0dp"
+            android:textSize="7pt" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_below="@+id/textViewCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10:30"
+            android:textSize="8pt"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/favorit_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/time"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="0dp"
+            android:text="Wolkenlos"
+            android:textSize="7pt" />
+
+    </RelativeLayout>
 </RelativeLayout>

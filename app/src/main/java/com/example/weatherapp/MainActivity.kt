@@ -17,6 +17,7 @@ import java.io.InputStreamReader
 import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
+import javax.net.ssl.HttpsURLConnection
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var etCityName: EditText
     private lateinit var btnGetWeather: Button
     private lateinit var tvWeatherData: TextView
+    private lateinit var notification: TextView
 
     private fun checkLocationPermission(): Boolean {
         val fineLocationPermission = ContextCompat.checkSelfPermission(
@@ -82,20 +84,57 @@ class MainActivity : AppCompatActivity() {
         etCityName = findViewById(R.id.etCityName)
         btnGetWeather = findViewById(R.id.btnGetWeather)
         tvWeatherData = findViewById(R.id.tvWeatherData)
+        notification = findViewById(R.id.notification)
 
         btnGetWeather.setOnClickListener {
             if (checkLocationPermission()) {
                 val cityName = etCityName.text.toString()
-                val intent = Intent(this, WeatherDetailsActivity::class.java)
-                intent.putExtra("city", cityName)
-                startActivity(intent)
+
+                checkCityExists(cityName) { exists ->
+                    if (exists) {
+                        val intent = Intent(this, WeatherDetailsActivity::class.java)
+                        intent.putExtra("city", cityName)
+                        startActivity(intent)
+                    } else {
+                        notification.text = "Ungültige Stadt - Bitte Eingabe überprüfen"
+                        Toast.makeText(this, "Ungültige Stadt", Toast.LENGTH_SHORT).show()
+                    }
+                }
             } else {
                 requestLocationPermission()
             }
         }
+
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
     }
+
+    private fun checkCityExists(cityName: String, callback: (Boolean) -> Unit) {
+        val url = "https://api.openweathermap.org/data/2.5/weather?q=$cityName&units=metric&appid=$API_KEY"
+
+        val thread = Thread {
+            var cityExists = false
+
+            try {
+                val connection = URL(url).openConnection() as HttpsURLConnection
+                connection.requestMethod = "GET"
+                val responseCode = connection.responseCode
+
+                if (responseCode == HttpsURLConnection.HTTP_OK) {
+                    cityExists = true
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            runOnUiThread {
+                callback(cityExists)
+            }
+        }
+
+        thread.start()
+    }
+
 }
