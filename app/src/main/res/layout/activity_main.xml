@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/etCityName"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="-4dp"
         android:textColor="#F44336"
         android:textSize="6pt" />
 
