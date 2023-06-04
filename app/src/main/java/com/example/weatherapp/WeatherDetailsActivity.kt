@@ -24,7 +24,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
     private fun getWeatherData(cityName: String?) {
         val url =
-            "https://api.openweathermap.org/data/2.5/weather?q=$cityName&appid=$API_KEY"
+            "https://api.openweathermap.org/data/2.5/weather?q=$cityName&units=metric&appid=$API_KEY"
 
         val thread = Thread {
             try {
@@ -35,16 +35,19 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val wind = weatherData.getJSONObject("wind")
                 val weather = weatherData.getJSONArray("weather").getJSONObject(0)
 
-                val temp = String.format("%.0f", main.getDouble("temp") - 273.15) + "°C"
-                val tempMinMax = "H: " + String.format("%.0f", main.getDouble("temp_min")) + "°C" + " T: " + String.format("%.0f", main.getDouble("temp_max")) + "°C"
+                val temp = String.format("%.0f", main.getDouble("temp")) + "°C"
+                val tempMin = "Tiefsttemperatur: " + String.format("%.0f", main.getDouble("temp_min")) + "°C"
+                val tempMax = "Höchsttemperatur: " + String.format("%.0f", main.getDouble("temp_max")) + "°C"
                 val address = weatherData.getString("name")
-                val description1 = weather.getString("description")
+                val description = weather.getString("description")
 
                 runOnUiThread {
                     findViewById<TextView>(R.id.location).text = address
                     findViewById<TextView>(R.id.temperatur).text = temp
-                    findViewById<TextView>(R.id.highandlow).text = tempMinMax
-                    findViewById<TextView>(R.id.weatherState).text = description1
+                    findViewById<TextView>(R.id.temp_min).text = tempMin
+                    findViewById<TextView>(R.id.temp_max).text = tempMax
+                    findViewById<TextView>(R.id.weatherstates).text = description
+                    findViewById<TextView>(R.id.weatherstates).text = description
                 }
             } catch (e: Exception) {
                 runOnUiThread {
