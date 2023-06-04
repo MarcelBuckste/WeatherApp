@@ -15,32 +15,27 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent">
 
-        <LinearLayout
+    <LinearLayout
         android:id="@+id/cityContainer"
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35pt">
-
-            <TextView
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Standort"
-                android:textSize="14pt"></TextView>
-
-
-        </LinearLayout>
-
+        android:layout_marginTop="20pt">
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Standort"
+            android:textSize="14pt"></TextView>
+    </LinearLayout>
         <LinearLayout
             android:id="@+id/temperatureContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cityContainer"
             android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_below="@id/cityContainer">
 
             <TextView
                 android:id="@+id/temperatur"
@@ -53,8 +48,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_gravity="center">
 
                 <TextView
                     android:id="@+id/weatherState"
@@ -68,8 +63,8 @@
                     android:id="@+id/highandlow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:text="H: 24°  T: 10°"
+                    android:layout_gravity="center"
                     android:textSize="8pt" />
             </LinearLayout>
         </LinearLayout>
@@ -141,23 +136,6 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btngetlist"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:text="Suche"
-            android:drawableLeft="@drawable/bt_back_icon"/>
 
-        <Button
-            android:id="@+id/btnadd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="248dp"
-            android:layout_marginTop="3dp"
-            android:background="@android:color/transparent"
-            android:text="Hinzufügen" />
     </RelativeLayout>
 </RelativeLayout>
