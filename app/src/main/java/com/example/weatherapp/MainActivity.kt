@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private val API_KEY = "7bcf2f0452cdb22b1fa928e8bde613a2"
     private lateinit var etCityName: EditText
     private lateinit var btnGetWeather: Button
-    private lateinit var tvWeatherData: TextView
+    private lateinit var dataInfo: TextView
     private lateinit var notification: TextView
 
     private fun checkLocationPermission(): Boolean {
@@ -67,6 +67,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, WeatherDetailsActivity::class.java)
                 intent.putExtra("city", cityName)
                 startActivity(intent)
+
             } else {
                 Toast.makeText(
                     this,
@@ -80,11 +81,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         etCityName = findViewById(R.id.etCityName)
         btnGetWeather = findViewById(R.id.btnGetWeather)
-        tvWeatherData = findViewById(R.id.tvWeatherData)
+        dataInfo = findViewById(R.id.dataInfo)
         notification = findViewById(R.id.notification)
+
 
         btnGetWeather.setOnClickListener {
             if (checkLocationPermission()) {
@@ -95,6 +96,29 @@ class MainActivity : AppCompatActivity() {
                         val intent = Intent(this, WeatherDetailsActivity::class.java)
                         intent.putExtra("city", cityName)
                         startActivity(intent)
+                        etCityName.setText("")
+                        notification.text = ("")
+                    } else {
+                        notification.text = "Ungültige Stadt - Bitte Eingabe überprüfen"
+                        Toast.makeText(this, "Ungültige Stadt", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                requestLocationPermission()
+            }
+        }
+
+        btnGetWeather.setOnClickListener {
+            if (checkLocationPermission()) {
+                val cityName = etCityName.text.toString()
+
+                checkCityExists(cityName) { exists ->
+                    if (exists) {
+                        val intent = Intent(this, WeatherDetailsActivity::class.java)
+                        intent.putExtra("city", cityName)
+                        startActivity(intent)
+                        etCityName.setText("")
+                        notification.text = ("")
                     } else {
                         notification.text = "Ungültige Stadt - Bitte Eingabe überprüfen"
                         Toast.makeText(this, "Ungültige Stadt", Toast.LENGTH_SHORT).show()

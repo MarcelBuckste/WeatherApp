@@ -33,13 +33,7 @@
         android:layout_marginTop="11dp"
         android:text="Wetter abrufen" />
 
-    <TextView
-        android:id="@+id/tvWeatherData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/favoriten"
-        android:layout_marginTop="3dp"
-        android:textSize="18sp" />
+
 
     <TextView
         android:id="@+id/favoriten"
@@ -117,4 +111,12 @@
             android:textSize="7pt" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/dataInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/favoriten"
+        android:layout_marginTop="134dp"
+        android:textSize="18sp" />
 </RelativeLayout>

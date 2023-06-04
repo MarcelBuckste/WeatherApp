@@ -1,9 +1,14 @@
 package com.example.weatherapp
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.weatherapp.data.Location
+import com.example.weatherapp.data.LocationDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -13,12 +18,40 @@ import javax.net.ssl.HttpsURLConnection
 
 class WeatherDetailsActivity : AppCompatActivity() {
     private val API_KEY = "7bcf2f0452cdb22b1fa928e8bde613a2"
+    private lateinit var btngetlist: Button
+    private lateinit var btnadd: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_weather_details)
-
         val cityName = intent.getStringExtra("city")
+
+        btngetlist = findViewById(R.id.btngetlist)
+        btnadd = findViewById(R.id.btnadd)
+
+        btngetlist.setOnClickListener {
+
+            finish()
+        }
+
+        btnadd.setOnClickListener {
+            val cityName = intent.getStringExtra("city")
+            val location = Location(null, cityName)
+
+            val locationDao = LocationDatabase.getDatabase(applicationContext).locationDao()
+
+            GlobalScope.launch(Dispatchers.IO) {
+                locationDao.insert(location)
+            }
+            Toast.makeText(this, "Eintrag hinzugefügt", Toast.LENGTH_SHORT).show()
+            btnadd.visibility = View.GONE
+        }
+
+
+
+
+
         getWeatherData(cityName)
     }
 
