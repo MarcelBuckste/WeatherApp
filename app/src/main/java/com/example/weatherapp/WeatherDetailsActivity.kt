@@ -1,12 +1,15 @@
 package com.example.weatherapp
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.example.weatherapp.data.Location
 import com.example.weatherapp.data.LocationDatabase
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +27,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
     private val API_KEY = "7bcf2f0452cdb22b1fa928e8bde613a2"
     private lateinit var btngetlist: Button
     private lateinit var btnadd: Button
-
+    var visibilitystring = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,11 +59,36 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
 
 
+
         getWeatherData(cityName)
     }
 
     private fun getWeatherData(cityName: String?) {
         val url = "https://api.openweathermap.org/data/2.5/weather?q=$cityName&lang=de&units=metric&appid=$API_KEY"
+
+        fun getWeatherIconFileName(weatherIconCode: String): String {
+            return when (weatherIconCode) {
+                "01d" -> "d01d" // Beispiel: Klares Himmel am Tag
+                "01n" -> "d01n" // Beispiel: Klares Himmel in der Nacht
+                "02d" -> "d02d" // Beispiel: Einige Wolken am Tag
+                "02n" -> "d02n" // Beispiel: Einige Wolken in der Nacht
+                "03d" -> "d03d" // Beispiel: Einige Wolken am Tag
+                "03n" -> "d03n" // Beispiel: Einige Wolken in der Nacht
+                "04d" -> "d04d" // Beispiel: Einige Wolken am Tag
+                "04n" -> "d04n" // Beispiel: Einige Wolken in der Nacht
+                "09d" -> "d09d" // Beispiel: Einige Wolken am Tag
+                "09n" -> "d09n" // Beispiel: Einige Wolken in der Nacht
+                "10d" -> "d10d" // Beispiel: Einige Wolken am Tag
+                "10n" -> "d10n" // Beispiel: Einige Wolken in der Nacht
+                "11d" -> "d11d" // Beispiel: Einige Wolken am Tag
+                "11n" -> "d11n" // Beispiel: Einige Wolken in der Nacht
+                "13d" -> "d13d" // Beispiel: Einige Wolken am Tag
+                "13n" -> "d13n" // Beispiel: Einige Wolken in der Nacht
+                "50d" -> "d50d" // Beispiel: Einige Wolken am Tag
+                "50n" -> "d50n" // Beispiel: Einige Wolken in der Nacht
+                else -> "unknown" // Beispiel: Standard-Icon für unbekannte Wetterbedingungen
+            }
+        }
 
         val thread = Thread {
             try {
@@ -94,7 +122,15 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val address = weatherData.getString("name")
                 val description = weather.getString("description")
                 val visibilityformat = visibility/1000
-                val visibilitystring = visibilityformat.toString()+" Km"
+                if (visibilityformat == 10)
+                {
+                    visibilitystring = "> "+visibilityformat.toString()+" Km"
+                }
+                else
+                {
+                    visibilitystring = visibilityformat.toString()+" Km"
+                }
+
                 val windpace = String.format("%.0f", wind.getDouble("speed"))+ " m/s"
                 val country = sys.getString("country")
                 val calculationDate = dateFormat.format(dtTime)
@@ -105,24 +141,88 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val forecastData = JSONObject(forecastJson)
                 val forecastList = forecastData.getJSONArray("list")
 
-                // Get forecast data for the next two days
-                val forecastDay1 = forecastList.getJSONObject(8)
-                val forecastDay2 = forecastList.getJSONObject(16)
+                val forecastDateFormat = SimpleDateFormat("EEEE", Locale.GERMAN)
+                val forecastDays = mutableListOf<String>()
+                val forecaststate = arrayListOf<String>()
+                val forecastTemperatures = ArrayList<String>()
+                val weatherIconCodes = mutableListOf<String>()
 
-                // Get day of the week for the next two days
-                val forecastDay1Timestamp = forecastDay1.getLong("dt")
-                val forecastDay2Timestamp = forecastDay2.getLong("dt")
-                val forecastDay1Time = Date((forecastDay1Timestamp + timezoneOffset) * 1000)
-                val forecastDay2Time = Date((forecastDay2Timestamp + timezoneOffset) * 1000)
-                val forecastDay1Format = SimpleDateFormat("EEEE", Locale.GERMANY)
-                val forecastDay2Format = SimpleDateFormat("EEEE", Locale.GERMANY)
-                val forecastDay1OfWeek = forecastDay1Format.format(forecastDay1Time)
-                val forecastDay2OfWeek = forecastDay2Format.format(forecastDay2Time)
+                for (i in 0 until 5) {
+                    val forecastItem = forecastList.getJSONObject(i * 8)
+                    val weather = forecastItem.getJSONArray("weather").getJSONObject(0)
+                    val iconCode = weather.getString("icon")
+                    weatherIconCodes.add(iconCode)
+                }
 
-                val forecastDay1MinTemp = forecastDay1.getJSONObject("main").getDouble("temp_min")
-                val forecastDay1MaxTemp = forecastDay1.getJSONObject("main").getDouble("temp_max")
-                val forecastDay2MinTemp = forecastDay2.getJSONObject("main").getDouble("temp_min")
-                val forecastDay2MaxTemp = forecastDay2.getJSONObject("main").getDouble("temp_max")
+                val weatherIcons = mutableListOf<Drawable?>()
+
+                for (iconCode in weatherIconCodes) {
+                    val iconFileName = getWeatherIconFileName(iconCode)
+                    val resourceId = resources.getIdentifier(iconFileName, "drawable", packageName)
+
+                    if (resourceId != 0) {
+                        val iconDrawable = ContextCompat.getDrawable(this, resourceId)
+                        weatherIcons.add(iconDrawable)
+                    } else {
+                        weatherIcons.add(null) // Füge null hinzu, wenn das Icon nicht gefunden wurde
+                    }
+                }
+
+
+
+
+                for (i in 0 until 5) {
+                    val forecastItem = forecastList.getJSONObject(i * 8)
+                    val forecastTimestamp = forecastItem.getLong("dt")
+                    val forecastTime = Date((forecastTimestamp + timezoneOffset) * 1000)
+                    val forecastDayOfWeek = forecastDateFormat.format(forecastTime)
+                    forecastDays.add(forecastDayOfWeek)
+                }
+                for (i in 0 until 5) {
+                    val forecastDay = forecastList.getJSONObject(i * 8)
+                    val temperature = forecastDay.getJSONObject("main")
+                    val avgTemp = temperature.getDouble("temp").toInt()
+                    val temperatureString = "$avgTemp°C"
+                    forecastTemperatures.add(temperatureString)
+                }
+
+
+
+
+                for (i in 0 until 5) {
+                    val forecastDay = forecastList.getJSONObject(i * 8)
+                    val weather = forecastDay.getJSONArray("weather").getJSONObject(0)
+                    val forecastdescription = weather.getString("description")
+                    forecaststate.add(forecastdescription)
+                }
+
+
+
+
+
+                runOnUiThread {
+                    findViewById<TextView>(R.id.forecastday1).text = forecastDays[0].substring(0, 2)
+                    findViewById<TextView>(R.id.forecastday2).text = forecastDays[1].substring(0, 2)
+                    findViewById<TextView>(R.id.forecastday3).text = forecastDays[2].substring(0, 2)
+                    findViewById<TextView>(R.id.forecastday4).text = forecastDays[3].substring(0, 2)
+                    findViewById<TextView>(R.id.forecastday5).text = forecastDays[4].substring(0, 2)
+                    findViewById<TextView>(R.id.forecastday1state).text = forecaststate[0]
+                    findViewById<TextView>(R.id.forecastday2state).text = forecaststate[1]
+                    findViewById<TextView>(R.id.forecastday3state).text = forecaststate[2]
+                    findViewById<TextView>(R.id.forecastday4state).text = forecaststate[3]
+                    findViewById<TextView>(R.id.forecastday5state).text = forecaststate[4]
+                    findViewById<TextView>(R.id.forecastday1Temp).text = forecastTemperatures[0]
+                    findViewById<TextView>(R.id.forecastday2Temp).text = forecastTemperatures[1]
+                    findViewById<TextView>(R.id.forecastday3Temp).text = forecastTemperatures[2]
+                    findViewById<TextView>(R.id.forecastday4Temp).text = forecastTemperatures[3]
+                    findViewById<TextView>(R.id.forecastday5Temp).text = forecastTemperatures[4]
+                    findViewById<ImageView>(R.id.forecastday1Icon).setImageDrawable(weatherIcons[0])
+                    findViewById<ImageView>(R.id.forecastday2Icon).setImageDrawable(weatherIcons[1])
+                    findViewById<ImageView>(R.id.forecastday3Icon).setImageDrawable(weatherIcons[2])
+                    findViewById<ImageView>(R.id.forecastday4Icon).setImageDrawable(weatherIcons[3])
+                    findViewById<ImageView>(R.id.forecastday5Icon).setImageDrawable(weatherIcons[4])
+
+                }
 
 
 
@@ -138,7 +238,6 @@ class WeatherDetailsActivity : AppCompatActivity() {
                     findViewById<TextView>(R.id.sunrise).text = sunriseLocalTime
                     findViewById<TextView>(R.id.sunset).text = sunsetLocalTime
                     findViewById<TextView>(R.id.cloudiness).text = "$cloudiness %"
-                    findViewById<TextView>(R.id.weekday).text = "$forecastDay1OfWeek: $forecastDay1MinTemp°C/$forecastDay1MaxTemp°C, $forecastDay2OfWeek: $forecastDay2MinTemp°C/$forecastDay2MaxTemp°C"
                 }
             } catch (e: Exception) {
                 runOnUiThread {

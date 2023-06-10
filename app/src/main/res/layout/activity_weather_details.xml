@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="25dp"
     android:background="@drawable/gradient_background">
 
@@ -74,12 +74,9 @@
             android:orientation="horizontal">
 
 
-
-
             <Space
                 android:layout_width="50dp"
                 android:layout_height="wrap_content" />
-
 
 
             <!-- Inhalte des duplizierten Containers -->
@@ -90,8 +87,8 @@
             android:id="@+id/detailsContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
 
             <!-- Erste Ebene -->
             <LinearLayout
@@ -104,18 +101,18 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_weather_detail"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="8dp"
-                    android:layout_marginTop="10dp">
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/bewoelkt_better"
                         android:scaleType="fitXY"
+                        android:src="@drawable/bewoelkt_better"
                         app:tint="#FFFFFF" />
 
                     <Space
@@ -144,12 +141,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="8dp"
                     android:background="@drawable/background_weather_detail"
-                    android:layout_marginTop="10dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="25dp"
@@ -164,15 +161,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="Wind" />
+                        android:text="Wind"
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/windpace"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:text="8 km/h" />
+                        android:text="8 km/h"
+                        android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -187,12 +184,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="8dp"
                     android:background="@drawable/background_weather_detail"
-                    android:layout_marginTop="10dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="25dp"
@@ -207,15 +204,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="Sonnenaufgang" />
+                        android:text="Sonnenaufgang"
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/sunrise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:text="06:45 Uhr" />
+                        android:text="06:45 Uhr"
+                        android:textSize="14dp" />
                 </LinearLayout>
 
                 <Space
@@ -226,12 +223,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="8dp"
                     android:background="@drawable/background_weather_detail"
-                    android:layout_marginTop="10dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="25dp"
@@ -246,15 +243,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="Sonnenuntergang" />
+                        android:text="Sonnenuntergang"
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/sunset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:text="21:10 Uhr" />
+                        android:text="21:10 Uhr"
+                        android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -269,12 +266,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="8dp"
                     android:background="@drawable/background_weather_detail"
-                    android:layout_marginTop="10dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="25dp"
@@ -289,15 +286,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="Luftfeuchtigkeit" />
+                        android:text="Luftfeuchtigkeit"
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:text="30 %" />
+                        android:text="30 %"
+                        android:textSize="14dp" />
                 </LinearLayout>
 
                 <Space
@@ -308,12 +305,12 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="8dp"
                     android:background="@drawable/background_weather_detail"
-                    android:layout_marginTop="10dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                     <ImageView
                         android:layout_width="25dp"
@@ -328,37 +325,40 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12dp"
-                        android:text="Sichtweite" />
+                        android:text="Sichtweite"
+                        android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/visibility"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:text="12km" />
+                        android:text="12km"
+                        android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <!-- Neunter Container -->
 
+
         <LinearLayout
             android:id="@+id/DaysContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_above="@id/detailsContainer">
+            android:layout_above="@id/detailsContainer"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/background_weather_detail"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/next7days"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nächste 5 Tage"
-                android:textSize="18dp"
-                android:textStyle="bold"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:text="Nächste 5 Tage"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -373,31 +373,48 @@
                     android:orientation="horizontal">
 
                     <!-- Bild oder Symbol für den Wetterzustand -->
-                    <ImageView
+                    <Space
                         android:layout_width="25dp"
-                        android:layout_height="25dp"/>
+                        android:layout_height="wrap_content" />
 
                     <!-- Wochentag -->
                     <TextView
                         android:id="@+id/weekday"
-                        android:layout_width="282dp"
+                        android:layout_width="50dp"
                         android:layout_height="match_parent"
-                        android:text="Montag"
-                        android:textSize="12dp" />
+                        android:text="Heute"
+                        android:textSize="17dp" />
+
                     <Space
                         android:layout_width="10dp"
                         android:layout_height="wrap_content" />
                     <!-- Temperatur -->
+                    <ImageView
+                        android:id="@+id/forecastday0Icon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp" />
+
+                    <Space
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content" />
+
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/forecastday0state"
+                        android:layout_width="120dp"
                         android:layout_height="wrap_content"
-                        android:text="24°C"
-                        android:textSize="12dp" />
+                        android:text="Meist bewölkt" />
+
+                    <Space
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/forecastday0Temp"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:text="24°C" />
 
                 </LinearLayout>
-
-
-
 
 
             </LinearLayout>
@@ -409,25 +426,46 @@
                 android:orientation="horizontal">
 
                 <!-- Bild oder Symbol für den Wetterzustand -->
-                <ImageView
+                <Space
                     android:layout_width="25dp"
-                    android:layout_height="25dp"/>
+                    android:layout_height="wrap_content" />
 
                 <!-- Wochentag -->
                 <TextView
-                    android:layout_width="276dp"
+                    android:id="@+id/forecastday1"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="Dienstag"
-                    android:textSize="12dp" />
+                    android:text="Di"
+                    android:textSize="17dp" />
+
                 <Space
                     android:layout_width="10dp"
                     android:layout_height="wrap_content" />
                 <!-- Temperatur -->
+                <ImageView
+                    android:id="@+id/forecastday1Icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/forecastday1state"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="25°C"
-                    android:textSize="12dp" />
+                    android:text="Meist bewölkt" />
+
+                <Space
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/forecastday1Temp"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="24°C" />
 
             </LinearLayout>
 
@@ -438,588 +476,212 @@
                 android:orientation="horizontal">
 
                 <!-- Bild oder Symbol für den Wetterzustand -->
-                <ImageView
+                <Space
                     android:layout_width="25dp"
-                    android:layout_height="25dp" />
+                    android:layout_height="wrap_content" />
 
                 <!-- Wochentag -->
                 <TextView
-                    android:layout_width="285dp"
+                    android:id="@+id/forecastday2"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:text="Mittwoch"
-                    android:textSize="12dp" />
+                    android:text="mi"
+                    android:textSize="17dp" />
+
                 <Space
                     android:layout_width="10dp"
                     android:layout_height="wrap_content" />
                 <!-- Temperatur -->
+                <ImageView
+                    android:id="@+id/forecastday2Icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/forecastday2state"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:text="26°C"
-                    android:textSize="12dp" />
+                    android:text="Meist bewölkt" />
+
+                <Space
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/forecastday2Temp"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="24°C" />
 
             </LinearLayout>
-
-            </LinearLayout>
-        <!-- Stündliche Anzeige -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_above="@id/DaysContainer">
-
-            <!-- Stündliche Anzeige für die nächsten Stunden -->
-            <HorizontalScrollView
+            <!-- Tag 4 -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:orientation="horizontal">
+
+                <!-- Bild oder Symbol für den Wetterzustand -->
+                <Space
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content" />
+
+                <!-- Wochentag -->
+                <TextView
+                    android:id="@+id/forecastday3"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="do"
+                    android:textSize="17dp" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
+                <!-- Temperatur -->
+                <ImageView
+                    android:id="@+id/forecastday3Icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/forecastday3state"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Meist bewölkt" />
+
+                <Space
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/forecastday3Temp"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="24°C" />
+
+            </LinearLayout>
+            <!-- Tag 5 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <!-- Bild oder Symbol für den Wetterzustand -->
+                <Space
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content" />
+
+                <!-- Wochentag -->
+                <TextView
+                    android:id="@+id/forecastday4"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="do"
+                    android:textSize="17dp" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
+                <!-- Temperatur -->
+                <ImageView
+                    android:id="@+id/forecastday4Icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/forecastday4state"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Meist bewölkt" />
+
+                <Space
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/forecastday4Temp"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="24°C" />
+
+            </LinearLayout>
+            <!-- Tag 6 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- Bild oder Symbol für den Wetterzustand -->
+                <Space
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content" />
+
+                <!-- Wochentag -->
+                <TextView
+                    android:id="@+id/forecastday5"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="do"
+                    android:textSize="17dp" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
+                <!-- Temperatur -->
+                <ImageView
+                    android:id="@+id/forecastday5Icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/forecastday5state"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Meist bewölkt" />
+
+                <Space
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/forecastday5Temp"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="24°C" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp" />
+            </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/hourlyContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <!-- Stunde 1 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="12:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="24°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-
-                    <!-- Stunde 2 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="13:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 3 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="14:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 4 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="15:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 5 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="16:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 6 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="17:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 7 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="18:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 8 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="19:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 9 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="20:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 10 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="21:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 11 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="22:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 12 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="23:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 13 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="24:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 14 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="01:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 15 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                             />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="02:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 16 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="03:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 17 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                             />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="04:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 18 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="05:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde19 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                             />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="06:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-                    <!-- Stunde 20 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp">>
-
-                        <!-- Stundensymbol -->
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <!-- Stunde -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="07:00"
-                            android:textSize="12dp" />
-
-                        <!-- Temperatur -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="25°C"
-                            android:textSize="12dp" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </HorizontalScrollView>
 
         </LinearLayout>
-
 
         <Button
             android:id="@+id/btngetlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:text="Suche"
-            android:drawableLeft="@drawable/bt_back_icon" />
+            android:drawableLeft="@drawable/bt_back_icon"
+            android:text="Suche" />
 
         <Button
             android:id="@+id/btnadd"
@@ -1033,6 +695,7 @@
             android:layout_marginBottom="194dp"
             android:background="@android:color/transparent"
             android:text="Hinzufügen" />
+
 
     </RelativeLayout>
 
