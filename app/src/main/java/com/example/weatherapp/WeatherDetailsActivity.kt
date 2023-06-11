@@ -74,7 +74,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
             } else if (buttonText == "Hinzufügen") {
                 GlobalScope.launch(Dispatchers.IO) {
                     val currentEntries = locationDao.getAll()
-                    if (currentEntries.size < 5) {
+                    if (currentEntries.size < 4) {
                         val location = Location(null, cityName)
                         locationDao.insert(location)
                         runOnUiThread {
@@ -154,7 +154,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val timeFormat = SimpleDateFormat("HH:mm", Locale.GERMANY)
                 val timeFormat2 = SimpleDateFormat("HH", Locale.GERMANY)
                 val currentTime = timeFormat2.format(dtTime)
-                val isNight = currentTime.toInt() < 6 || currentTime.toInt() >= 18
+                val isNight = currentTime.toInt() < 6 || currentTime.toInt() >= 22
 
 
                 val sunriseLocalTime = timeFormat.format(sunriseTime) +  " Uhr"

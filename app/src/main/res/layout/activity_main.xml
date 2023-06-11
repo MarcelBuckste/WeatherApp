@@ -11,8 +11,7 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-         />
+        android:layout_centerInParent="true" />
 
     <TextView
         android:id="@+id/WeatherInf"
@@ -68,8 +67,7 @@
         android:orientation="vertical"
         android:layout_below="@id/favoriten"
         android:layout_marginTop="14dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/background_round_favorit"
+        android:layout_marginBottom="5dp"
         android:padding="8dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,7 +90,7 @@
                     android:id="@+id/favoriten_temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="16°"
+                    android:text="--°"
                     android:textSize="20pt"
                     android:layout_gravity="end" />
             </FrameLayout>
@@ -107,7 +105,7 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10:30"
+                android:text="--:--"
 
                 android:textSize="8pt" />
 
@@ -121,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:layout_marginBottom="0dp"
-                    android:text="Wolkenlos"
+                    android:text="---------"
                     android:textSize="7pt"
                     android:layout_gravity="end" />
             </FrameLayout>

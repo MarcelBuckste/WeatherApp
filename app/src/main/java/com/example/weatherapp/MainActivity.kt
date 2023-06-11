@@ -3,6 +3,7 @@ package com.example.weatherapp
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
@@ -191,11 +192,9 @@ class MainActivity : AppCompatActivity() {
             val container = findViewById<LinearLayout>(R.id.citiesContainer)
             container.removeAllViews()
 
-            val layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.setMargins(0, 0, 0, 10)
+            var loadedLayoutCount = 0
+            val totalLayoutCount = locations.size
+
 
             for (location in locations) {
                 val cityLayout = layoutInflater.inflate(R.layout.city_layout, null)
@@ -215,24 +214,23 @@ class MainActivity : AppCompatActivity() {
                 favoritStateTextView.text = "Wolkenlos"
                 getWeatherData(location.city, favoritenTempTextView, timeTextView, favoritStateTextView, iconImageView)
 
-                container.addView(cityLayout, layoutParams)
+                container.addView(cityLayout)
 
                 cityLayout.setOnClickListener {
                     val intent = Intent(applicationContext, WeatherDetailsActivity::class.java)
                     intent.putExtra("city", location.city)
                     startActivity(intent)
                 }
-                progressBar.visibility = View.GONE
+
+                cityLayout.viewTreeObserver.addOnGlobalLayoutListener {
+                    loadedLayoutCount++
+                    if (loadedLayoutCount == totalLayoutCount) {
+                        progressBar.visibility = View.GONE
+                    }
+                }
             }
         }
     }
-
-
-
-
-
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
