@@ -7,6 +7,13 @@
     tools:context=".MainActivity"
     android:background="@drawable/gradient_background">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+         />
+
     <TextView
         android:id="@+id/WeatherInf"
         android:layout_width="wrap_content"
@@ -129,4 +136,5 @@
         android:layout_below="@id/favoriten"
         android:layout_marginTop="134dp"
         android:textSize="18sp" />
+
 </RelativeLayout>

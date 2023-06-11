@@ -1,5 +1,6 @@
 package com.example.weatherapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -41,6 +42,9 @@ class WeatherDetailsActivity : AppCompatActivity() {
         btnadd = findViewById(R.id.btnadd)
 
         btngetlist.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
             finish()
         }
 
@@ -51,7 +55,8 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
             runOnUiThread {
                 if (cityExists) {
-                    btnadd.visibility = View.GONE
+                    btnadd.text = "Löschen"
+                    btnadd.visibility = View.VISIBLE
                 } else {
                     btnadd.visibility = View.VISIBLE
                 }
@@ -59,13 +64,32 @@ class WeatherDetailsActivity : AppCompatActivity() {
         }
 
         btnadd.setOnClickListener {
-            val location = Location(null, cityName)
-            GlobalScope.launch(Dispatchers.IO) {
-                locationDao.insert(location)
+            val buttonText = btnadd.text.toString()
+            if (buttonText == "Löschen") {
+                GlobalScope.launch(Dispatchers.IO) {
+                    locationDao.deleteByCity(cityName.toString())
+                }
+                Toast.makeText(this@WeatherDetailsActivity, "Eintrag gelöscht", Toast.LENGTH_SHORT).show()
+                btnadd.visibility = View.GONE
+            } else if (buttonText == "Hinzufügen") {
+                GlobalScope.launch(Dispatchers.IO) {
+                    val currentEntries = locationDao.getAll()
+                    if (currentEntries.size < 5) {
+                        val location = Location(null, cityName)
+                        locationDao.insert(location)
+                        runOnUiThread {
+                            Toast.makeText(this@WeatherDetailsActivity, "Eintrag hinzugefügt", Toast.LENGTH_SHORT).show()
+                            btnadd.text = "Löschen"
+                        }
+                    } else {
+                        runOnUiThread {
+                            Toast.makeText(this@WeatherDetailsActivity, "Maximale Anzahl an Einträgen erreicht", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
-            Toast.makeText(this, "Eintrag hinzugefügt", Toast.LENGTH_SHORT).show()
-            btnadd.visibility = View.GONE
         }
+
 
         getWeatherData(cityName)
     }
@@ -219,15 +243,15 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
 
                 val backgroundId = if (isNight) R.drawable.background_night else R.drawable.gradient_background
-                val backgroundId2 = if (isNight) R.drawable.background_night_v2 else R.drawable.background_weather_detail
-                val daysContainer: LinearLayout = findViewById(R.id.DaysContainer)
+                //val backgroundId2 = if (isNight) R.drawable.background_night_v2 else R.drawable.background_weather_detail
+                //val daysContainer: LinearLayout = findViewById(R.id.DaysContainer)
                 //val cloudbackground: LinearLayout = findViewById(R.id.Cloud)
                 //val windContainer: LinearLayout = findViewById(R.id.WindContainer)
                 //val sunriseContainer: LinearLayout = findViewById(R.id.SunriseContainer)
                 //val sunsetContainer: LinearLayout = findViewById(R.id.SunsetContainer)
                 //val humidityContainer: LinearLayout = findViewById(R.id.HumidityContainer)
                 //val visibilityContainer: LinearLayout = findViewById(R.id.VisibilityContainer)
-                daysContainer.setBackgroundResource(backgroundId2)
+                //daysContainer.setBackgroundResource(backgroundId2)
                 //cloudbackground.setBackgroundResource(backgroundId2)
                 //windContainer.setBackgroundResource(backgroundId2)
                 //sunriseContainer.setBackgroundResource(backgroundId2)

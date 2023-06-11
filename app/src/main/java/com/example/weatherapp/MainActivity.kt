@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataInfo: TextView
     private lateinit var notification: TextView
     var visibilitystring = ""
+    private lateinit var progressBar: ProgressBar
 
     private fun checkLocationPermission(): Boolean {
         val fineLocationPermission = ContextCompat.checkSelfPermission(
@@ -135,32 +138,22 @@ class MainActivity : AppCompatActivity() {
 
 
                 val clouds = weatherData.getJSONObject("clouds")
-                val cloudiness = clouds.getInt("all")
 
-                val sunriseTimestamp = sys.getLong("sunrise")
-                val sunsetTimestamp = sys.getLong("sunset")
+
                 val timezoneOffset = weatherData.getInt("timezone")
                 val dt = weatherData.getLong("dt")
 
 
                 val dtTime = Date((dt + timezoneOffset) * 1000)
-                val sunriseTime = Date((sunriseTimestamp + timezoneOffset) * 1000)
-                val sunsetTime = Date((sunsetTimestamp + timezoneOffset) * 1000)
                 val dateFormat = SimpleDateFormat("dd. MMMM yyyy", Locale.GERMANY)
                 val timeFormat = SimpleDateFormat("HH:mm", Locale.GERMANY)
                 val timeFormat2 = SimpleDateFormat("HH", Locale.GERMANY)
                 val currentTime = timeFormat2.format(dtTime)
                 val favcurrentTime = timeFormat.format(dtTime)
-                val isNight = currentTime.toInt() < 6 || currentTime.toInt() >= 18
 
 
-                val sunriseLocalTime = timeFormat.format(sunriseTime) +  " Uhr"
-                val sunsetLocalTime = timeFormat.format(sunsetTime) + " Uhr"
                 val temp = String.format("%.0f", main.getDouble("temp")) + "°C"
-                val tempMin = "Tiefsttemperatur: " + String.format("%.0f", main.getDouble("temp_min")) + "°C"
-                val tempMax = "Höchsttemperatur: " + String.format("%.0f", main.getDouble("temp_max")) + "°C"
-                val humidity = main.getString("humidity") + " %"
-                val address = weatherData.getString("name")
+
                 val description = weather.getString("description")
                 val visibilityformat = visibility/1000
                 if (visibilityformat == 10)
@@ -171,14 +164,6 @@ class MainActivity : AppCompatActivity() {
                 {
                     visibilitystring = visibilityformat.toString()+" Km"
                 }
-
-
-                val windpace = String.format("%.0f", wind.getDouble("speed"))+ " m/s"
-                val country = sys.getString("country")
-                val calculationDate = dateFormat.format(dtTime)
-                val calculationTime = timeFormat.format(dtTime)
-
-
 
                 runOnUiThread {
                     tempTextView.text = temp
@@ -210,7 +195,7 @@ class MainActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
-            layoutParams.setMargins(0, 0, 0, 15)
+            layoutParams.setMargins(0, 0, 0, 10)
 
             for (location in locations) {
                 val cityLayout = layoutInflater.inflate(R.layout.city_layout, null)
@@ -231,6 +216,13 @@ class MainActivity : AppCompatActivity() {
                 getWeatherData(location.city, favoritenTempTextView, timeTextView, favoritStateTextView, iconImageView)
 
                 container.addView(cityLayout, layoutParams)
+
+                cityLayout.setOnClickListener {
+                    val intent = Intent(applicationContext, WeatherDetailsActivity::class.java)
+                    intent.putExtra("city", location.city)
+                    startActivity(intent)
+                }
+                progressBar.visibility = View.GONE
             }
         }
     }
@@ -247,9 +239,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         etCityName = findViewById(R.id.etCityName)
         btnGetWeather = findViewById(R.id.btnGetWeather)
-        dataInfo = findViewById(R.id.dataInfo)
         notification = findViewById(R.id.notification)
+
         displayCitiesFromDatabase()
+
+        progressBar = findViewById(R.id.progressBar)
+
+
+        progressBar.visibility = View.VISIBLE
 
 
         btnGetWeather.setOnClickListener {
