@@ -23,7 +23,7 @@
         android:enableOnBackInvokedCallback="true">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivity2"
             android:label="Wetter"
             android:exported="true">
             <intent-filter>
@@ -34,6 +34,12 @@
         <activity
             android:name=".WeatherDetailsActivity"
             android:label="Weather Details" />
+        <activity
+            android:name=".MainActivity"
+            android:label="Weather Details" />
+
+
+
 
 
     </application>

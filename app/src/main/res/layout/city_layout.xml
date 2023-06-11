@@ -1,69 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".MainActivity"
-    android:background="@drawable/gradient_background">
-
-    <TextView
-        android:id="@+id/WeatherInf"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Wetter"
-        android:textColor="#FFFFFF"
-        android:textSize="15pt" />
-
-    <EditText
-        android:id="@+id/etCityName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="67dp"
-        android:textColorHint="#E4E4E4"
-        android:textColor="#E4E4E4"
-        android:hint="Stadt eingeben..." />
-
-    <Button
-        android:id="@+id/btnGetWeather"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etCityName"
-        android:layout_marginTop="11dp"
-        android:text="Wetter abrufen" />
-
-
-
-    <TextView
-        android:id="@+id/favoriten"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/btnGetWeather"
-        android:layout_marginTop="11dp"
-        android:text="Favoriten:"
-        android:textColor="#FFFFFF"
-        android:textSize="10pt" />
-
-    <TextView
-        android:id="@+id/notification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etCityName"
-        android:layout_marginTop="-4dp"
-        android:textColor="#F44336"
-        android:textSize="6pt" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/citiesContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/favoriten"
         android:layout_marginTop="14dp"
         android:layout_marginBottom="20dp"
         android:background="@drawable/background_round_favorit"
-        android:padding="8dp">
+        android:padding="8dp"
+        tools:ignore="MissingConstraints">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,21 +21,31 @@
 
             <TextView
                 android:id="@+id/textViewCity"
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:text="Stuttgart"
                 android:textSize="12pt" />
+
+
 
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
+                <ImageView
+                    android:id="@+id/FavoritenIcon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="35dp"
+                    android:fontFamily="sans-serif-thin" />
+
                 <TextView
                     android:id="@+id/favoriten_temp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="16°"
+                    android:text="16°C"
                     android:textSize="20pt"
                     android:layout_gravity="end" />
             </FrameLayout>
@@ -122,11 +82,5 @@
 
 
     </LinearLayout>
-    <TextView
-        android:id="@+id/dataInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/favoriten"
-        android:layout_marginTop="134dp"
-        android:textSize="18sp" />
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

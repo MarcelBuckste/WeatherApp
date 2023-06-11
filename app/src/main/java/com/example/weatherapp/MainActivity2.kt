@@ -1,75 +1,96 @@
 package com.example.weatherapp
 
-import android.graphics.Color
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationRequest
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.weatherapp.data.Location
-import com.example.weatherapp.data.LocationDatabase
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.CancellationToken
+import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.gms.tasks.OnTokenCanceledListener
 import org.json.JSONObject
-import org.w3c.dom.Text
 import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import javax.net.ssl.HttpsURLConnection
 
-class WeatherDetailsActivity : AppCompatActivity() {
+class MainActivity2 : AppCompatActivity() {
+
+    private val LOCATION_PERMISSION_REQUEST_CODE = 1001
+
     private val API_KEY = "7bcf2f0452cdb22b1fa928e8bde613a2"
-    private lateinit var btngetlist: Button
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var geocoder: Geocoder
+    private lateinit var btnsearch: Button
     private lateinit var btnadd: Button
     var visibilitystring = ""
+    private lateinit var progressBar: ProgressBar
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_weather_details)
-        val cityName = intent.getStringExtra("city")
 
-        btngetlist = findViewById(R.id.btngetlist)
-        btnadd = findViewById(R.id.btnadd)
 
-        btngetlist.setOnClickListener {
-            finish()
-        }
 
-        val locationDao = LocationDatabase.getDatabase(applicationContext).locationDao()
-        GlobalScope.launch(Dispatchers.IO) {
-            val locations = locationDao.getAll()
-            val cityExists = locations.any { it.city == cityName }
-
-            runOnUiThread {
-                if (cityExists) {
-                    btnadd.visibility = View.GONE
-                } else {
-                    btnadd.visibility = View.VISIBLE
-                }
-            }
-        }
-
-        btnadd.setOnClickListener {
-            val location = Location(null, cityName)
-            GlobalScope.launch(Dispatchers.IO) {
-                locationDao.insert(location)
-            }
-            Toast.makeText(this, "Eintrag hinzugefügt", Toast.LENGTH_SHORT).show()
-            btnadd.visibility = View.GONE
-        }
-
-        getWeatherData(cityName)
+    private fun checkLocationPermission(): Boolean {
+        val fineLocationPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        val coarseLocationPermission = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+        return fineLocationPermission == PackageManager.PERMISSION_GRANTED &&
+                coarseLocationPermission == PackageManager.PERMISSION_GRANTED
     }
 
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ),
+            LOCATION_PERMISSION_REQUEST_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[1] == PackageManager.PERMISSION_GRANTED
+            ) {
+
+            } else {
+                Toast.makeText(
+                    this,
+                    "Standortfreigabe wurde verweigert",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 
     private fun getWeatherData(cityName: String?) {
         val url = "https://api.openweathermap.org/data/2.5/weather?q=$cityName&lang=de&units=metric&appid=$API_KEY"
@@ -110,7 +131,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val weatherIcon = weather.getString("icon")
                 val weatherIconName = getWeatherIconFileName(weatherIcon)
                 val weatherIconResourceId = resources.getIdentifier(weatherIconName, "drawable", packageName)
-                val weatherIconDrawable = ContextCompat.getDrawable(this@WeatherDetailsActivity, weatherIconResourceId)
+                val weatherIconDrawable = ContextCompat.getDrawable(this@MainActivity2, weatherIconResourceId)
 
 
 
@@ -219,23 +240,6 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
 
                 val backgroundId = if (isNight) R.drawable.background_night else R.drawable.gradient_background
-                val backgroundId2 = if (isNight) R.drawable.background_night_v2 else R.drawable.background_weather_detail
-                val daysContainer: LinearLayout = findViewById(R.id.DaysContainer)
-                //val cloudbackground: LinearLayout = findViewById(R.id.Cloud)
-                //val windContainer: LinearLayout = findViewById(R.id.WindContainer)
-                //val sunriseContainer: LinearLayout = findViewById(R.id.SunriseContainer)
-                //val sunsetContainer: LinearLayout = findViewById(R.id.SunsetContainer)
-                //val humidityContainer: LinearLayout = findViewById(R.id.HumidityContainer)
-                //val visibilityContainer: LinearLayout = findViewById(R.id.VisibilityContainer)
-                daysContainer.setBackgroundResource(backgroundId2)
-                //cloudbackground.setBackgroundResource(backgroundId2)
-                //windContainer.setBackgroundResource(backgroundId2)
-                //sunriseContainer.setBackgroundResource(backgroundId2)
-                //sunsetContainer.setBackgroundResource(backgroundId2)
-                //humidityContainer.setBackgroundResource(backgroundId2)
-                //visibilityContainer.setBackgroundResource(backgroundId2)
-
-
 
 
                 runOnUiThread {
@@ -288,5 +292,61 @@ class WeatherDetailsActivity : AppCompatActivity() {
         }
 
         thread.start()
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_weather_location)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        progressBar = findViewById(R.id.progressbar)
+        val mainContainer: RelativeLayout = findViewById(R.id.mainContainer)
+        mainContainer.visibility= View.INVISIBLE
+
+        progressBar.visibility = View.VISIBLE
+        geocoder = Geocoder(this, Locale.getDefault())
+        btnsearch = findViewById(R.id.btngetlist)
+        btnadd = findViewById(R.id.btnadd)
+        btnadd.visibility = View.INVISIBLE
+
+        btnsearch.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+
+
+
+        if (checkLocationPermission()) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+            fusedLocationClient.getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, object : CancellationToken() {
+                override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
+
+                override fun isCancellationRequested() = false
+            })
+                .addOnSuccessListener { location: Location? ->
+                    if (location == null)
+                        Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                    else {
+                        val lat = location.latitude
+                        val lon = location.longitude
+                        val address = this.geocoder.getFromLocation(lat, lon, 1)
+                        val cityName = address?.get(0)?.locality.toString()
+                        getWeatherData(cityName)
+
+                        progressBar.visibility = View.GONE
+                        mainContainer.visibility = View.VISIBLE
+
+
+
+                    }
+                }
+
+        } else {
+            requestLocationPermission()
+        }
+
+
     }
 }
