@@ -74,7 +74,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
             } else if (buttonText == "Hinzufügen") {
                 GlobalScope.launch(Dispatchers.IO) {
                     val currentEntries = locationDao.getAll()
-                    if (currentEntries.size < 4) {
+                    if (currentEntries.size < 6) {
                         val location = Location(null, cityName)
                         locationDao.insert(location)
                         runOnUiThread {

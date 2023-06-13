@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,6 +8,17 @@
     android:padding="16dp"
     tools:context=".MainActivity"
     android:background="@drawable/gradient_background">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/mainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -59,6 +72,7 @@
         android:layout_marginTop="-4dp"
         android:textColor="#F44336"
         android:textSize="6pt" />
+
 
     <LinearLayout
         android:id="@+id/citiesContainer"
@@ -127,12 +141,7 @@
 
 
     </LinearLayout>
-    <TextView
-        android:id="@+id/dataInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/favoriten"
-        android:layout_marginTop="134dp"
-        android:textSize="18sp" />
-
+    </RelativeLayout>
+    </ScrollView>
+    </FrameLayout>
 </RelativeLayout>
