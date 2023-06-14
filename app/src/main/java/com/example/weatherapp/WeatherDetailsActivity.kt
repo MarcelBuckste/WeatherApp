@@ -154,7 +154,9 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val timeFormat = SimpleDateFormat("HH:mm", Locale.GERMANY)
                 val timeFormat2 = SimpleDateFormat("HH", Locale.GERMANY)
                 val currentTime = timeFormat2.format(dtTime)
-                val isNight = currentTime.toInt() < 6 || currentTime.toInt() >= 22
+                val sunriseHour = timeFormat.format(sunriseTime)
+                val sunsetHour = timeFormat.format(sunsetTime)
+                val isNight = currentTime < sunriseHour || currentTime >= sunsetHour
 
 
                 val sunriseLocalTime = timeFormat.format(sunriseTime) +  " Uhr"

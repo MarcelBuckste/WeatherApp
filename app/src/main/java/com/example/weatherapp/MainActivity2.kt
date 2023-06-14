@@ -43,6 +43,7 @@ class MainActivity2 : AppCompatActivity() {
     private lateinit var btnadd: Button
     var visibilitystring = ""
     private lateinit var progressBar: ProgressBar
+    private lateinit var mainContainer: RelativeLayout
 
 
 
@@ -82,6 +83,38 @@ class MainActivity2 : AppCompatActivity() {
                 grantResults[1] == PackageManager.PERMISSION_GRANTED
             ) {
 
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    return
+                }
+                fusedLocationClient.getCurrentLocation(
+                    LocationRequest.QUALITY_HIGH_ACCURACY,
+                    object : CancellationToken() {
+                        override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+                            CancellationTokenSource().token
+
+                        override fun isCancellationRequested() = false
+                    })
+                    .addOnSuccessListener { location: Location? ->
+                        if (location == null)
+                            Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
+                        else {
+                            val lat = location.latitude
+                            val lon = location.longitude
+                            val address = this.geocoder.getFromLocation(lat, lon, 1)
+                            val cityName = address?.get(0)?.locality.toString()
+                            progressBar.visibility = View.GONE
+                            mainContainer.visibility = View.VISIBLE
+                            getWeatherData(cityName)
+
+                        }
+                    }
             } else {
                 Toast.makeText(
                     this,
@@ -91,6 +124,7 @@ class MainActivity2 : AppCompatActivity() {
             }
         }
     }
+
 
     private fun getWeatherData(cityName: String?) {
         val url = "https://api.openweathermap.org/data/2.5/weather?q=$cityName&lang=de&units=metric&appid=$API_KEY"
@@ -128,6 +162,7 @@ class MainActivity2 : AppCompatActivity() {
                 val wind = weatherData.getJSONObject("wind")
                 val sys = weatherData.getJSONObject("sys")
                 val weather = weatherData.getJSONArray("weather").getJSONObject(0)
+
                 val weatherIcon = weather.getString("icon")
                 val weatherIconName = getWeatherIconFileName(weatherIcon)
                 val weatherIconResourceId = resources.getIdentifier(weatherIconName, "drawable", packageName)
@@ -157,8 +192,6 @@ class MainActivity2 : AppCompatActivity() {
                 val sunriseLocalTime = timeFormat.format(sunriseTime) +  " Uhr"
                 val sunsetLocalTime = timeFormat.format(sunsetTime) + " Uhr"
                 val temp = String.format("%.0f", main.getDouble("temp")) + "°C"
-                val tempMin = "Tiefsttemperatur: " + String.format("%.0f", main.getDouble("temp_min")) + "°C"
-                val tempMax = "Höchsttemperatur: " + String.format("%.0f", main.getDouble("temp_max")) + "°C"
                 val humidity = main.getString("humidity") + " %"
                 val address = weatherData.getString("name")
                 val description = weather.getString("description")
@@ -300,8 +333,8 @@ class MainActivity2 : AppCompatActivity() {
         setContentView(R.layout.activity_weather_location)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         progressBar = findViewById(R.id.progressbar)
-        val mainContainer: RelativeLayout = findViewById(R.id.mainContainer)
-        mainContainer.visibility= View.INVISIBLE
+        mainContainer= findViewById(R.id.mainContainer)
+        mainContainer.visibility = View.INVISIBLE
 
         progressBar.visibility = View.VISIBLE
         geocoder = Geocoder(this, Locale.getDefault())
@@ -314,17 +347,15 @@ class MainActivity2 : AppCompatActivity() {
             startActivity(intent)
         }
 
-
-
-
         if (checkLocationPermission()) {
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient.getCurrentLocation(
+                LocationRequest.QUALITY_HIGH_ACCURACY,
+                object : CancellationToken() {
+                    override fun onCanceledRequested(p0: OnTokenCanceledListener) =
+                        CancellationTokenSource().token
 
-            fusedLocationClient.getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, object : CancellationToken() {
-                override fun onCanceledRequested(p0: OnTokenCanceledListener) = CancellationTokenSource().token
-
-                override fun isCancellationRequested() = false
-            })
+                    override fun isCancellationRequested() = false
+                })
                 .addOnSuccessListener { location: Location? ->
                     if (location == null)
                         Toast.makeText(this, "Cannot get location.", Toast.LENGTH_SHORT).show()
@@ -337,16 +368,11 @@ class MainActivity2 : AppCompatActivity() {
 
                         progressBar.visibility = View.GONE
                         mainContainer.visibility = View.VISIBLE
-
-
-
                     }
                 }
-
         } else {
             requestLocationPermission()
         }
-
-
     }
+
 }

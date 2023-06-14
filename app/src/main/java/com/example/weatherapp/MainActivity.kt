@@ -203,15 +203,15 @@ class MainActivity : AppCompatActivity() {
                 textViewCity.text = location.city
 
                 val favoritenTempTextView = cityLayout.findViewById<TextView>(R.id.favoriten_temp)
-                favoritenTempTextView.text = "16°"
+                favoritenTempTextView.text = "--°"
 
                 val timeTextView = cityLayout.findViewById<TextView>(R.id.time)
-                timeTextView.text = "10:30"
+                timeTextView.text = "----"
 
                 val iconImageView = cityLayout.findViewById<ImageView>(R.id.FavoritenIcon)
 
                 val favoritStateTextView = cityLayout.findViewById<TextView>(R.id.favorit_state)
-                favoritStateTextView.text = "Wolkenlos"
+                favoritStateTextView.text = "-----"
                 getWeatherData(location.city, favoritenTempTextView, timeTextView, favoritStateTextView, iconImageView)
 
                 container.addView(cityLayout)
@@ -247,26 +247,6 @@ class MainActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
 
 
-        btnGetWeather.setOnClickListener {
-            if (checkLocationPermission()) {
-                val cityName = etCityName.text.toString()
-
-                checkCityExists(cityName) { exists ->
-                    if (exists) {
-                        val intent = Intent(this, WeatherDetailsActivity::class.java)
-                        intent.putExtra("city", cityName)
-                        startActivity(intent)
-                        etCityName.setText("")
-                        notification.text = ("")
-                    } else {
-                        notification.text = "Ungültige Stadt - Bitte Eingabe überprüfen"
-                        Toast.makeText(this, "Ungültige Stadt", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
-                requestLocationPermission()
-            }
-        }
 
         btnGetWeather.setOnClickListener {
             if (checkLocationPermission()) {
