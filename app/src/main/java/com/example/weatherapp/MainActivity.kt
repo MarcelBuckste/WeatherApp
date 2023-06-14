@@ -41,10 +41,11 @@ class MainActivity : AppCompatActivity() {
     private val API_KEY = "7bcf2f0452cdb22b1fa928e8bde613a2"
     private lateinit var etCityName: EditText
     private lateinit var btnGetWeather: Button
-    private lateinit var dataInfo: TextView
+    private lateinit var exceptionTextView: TextView
     private lateinit var notification: TextView
     var visibilitystring = ""
     private lateinit var progressBar: ProgressBar
+    //private lateinit var exceptionText: TextView
 
     private fun checkLocationPermission(): Boolean {
         val fineLocationPermission = ContextCompat.checkSelfPermission(
@@ -195,37 +196,50 @@ class MainActivity : AppCompatActivity() {
             var loadedLayoutCount = 0
             val totalLayoutCount = locations.size
 
+            if (totalLayoutCount == 0) {
+                progressBar.visibility = View.GONE
+                exceptionTextView.visibility = View.VISIBLE
+            } else {
 
-            for (location in locations) {
-                val cityLayout = layoutInflater.inflate(R.layout.city_layout, null)
 
-                val textViewCity = cityLayout.findViewById<TextView>(R.id.textViewCity)
-                textViewCity.text = location.city
+                for (location in locations) {
+                    val cityLayout = layoutInflater.inflate(R.layout.city_layout, null)
 
-                val favoritenTempTextView = cityLayout.findViewById<TextView>(R.id.favoriten_temp)
-                favoritenTempTextView.text = "--°"
+                    val textViewCity = cityLayout.findViewById<TextView>(R.id.textViewCity)
+                    textViewCity.text = location.city
 
-                val timeTextView = cityLayout.findViewById<TextView>(R.id.time)
-                timeTextView.text = "----"
+                    val favoritenTempTextView =
+                        cityLayout.findViewById<TextView>(R.id.favoriten_temp)
+                    favoritenTempTextView.text = "--°"
 
-                val iconImageView = cityLayout.findViewById<ImageView>(R.id.FavoritenIcon)
+                    val timeTextView = cityLayout.findViewById<TextView>(R.id.time)
+                    timeTextView.text = "----"
 
-                val favoritStateTextView = cityLayout.findViewById<TextView>(R.id.favorit_state)
-                favoritStateTextView.text = "-----"
-                getWeatherData(location.city, favoritenTempTextView, timeTextView, favoritStateTextView, iconImageView)
+                    val iconImageView = cityLayout.findViewById<ImageView>(R.id.FavoritenIcon)
 
-                container.addView(cityLayout)
+                    val favoritStateTextView = cityLayout.findViewById<TextView>(R.id.favorit_state)
+                    favoritStateTextView.text = "-----"
+                    getWeatherData(
+                        location.city,
+                        favoritenTempTextView,
+                        timeTextView,
+                        favoritStateTextView,
+                        iconImageView
+                    )
 
-                cityLayout.setOnClickListener {
-                    val intent = Intent(applicationContext, WeatherDetailsActivity::class.java)
-                    intent.putExtra("city", location.city)
-                    startActivity(intent)
-                }
+                    container.addView(cityLayout)
 
-                cityLayout.viewTreeObserver.addOnGlobalLayoutListener {
-                    loadedLayoutCount++
-                    if (loadedLayoutCount == totalLayoutCount) {
-                        progressBar.visibility = View.GONE
+                    cityLayout.setOnClickListener {
+                        val intent = Intent(applicationContext, WeatherDetailsActivity::class.java)
+                        intent.putExtra("city", location.city)
+                        startActivity(intent)
+                    }
+
+                    cityLayout.viewTreeObserver.addOnGlobalLayoutListener {
+                        loadedLayoutCount++
+                        if (loadedLayoutCount == totalLayoutCount) {
+                            progressBar.visibility = View.GONE
+                        }
                     }
                 }
             }
@@ -239,9 +253,11 @@ class MainActivity : AppCompatActivity() {
         btnGetWeather = findViewById(R.id.btnGetWeather)
         notification = findViewById(R.id.notification)
 
+
         displayCitiesFromDatabase()
 
         progressBar = findViewById(R.id.progressBar)
+        exceptionTextView = findViewById(R.id.exceptionTextView)
 
 
         progressBar.visibility = View.VISIBLE
