@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var notification: TextView
     var visibilitystring = ""
     private lateinit var progressBar: ProgressBar
-    //private lateinit var exceptionText: TextView
 
     private fun checkLocationPermission(): Boolean {
         val fineLocationPermission = ContextCompat.checkSelfPermission(
@@ -129,17 +128,12 @@ class MainActivity : AppCompatActivity() {
                 val weatherData = JSONObject(weatherJson)
                 val main = weatherData.getJSONObject("main")
                 val visibility = weatherData.getInt("visibility")
-                val wind = weatherData.getJSONObject("wind")
-                val sys = weatherData.getJSONObject("sys")
                 val weather = weatherData.getJSONArray("weather").getJSONObject(0)
                 val weatherIcon = weather.getString("icon")
                 val weatherIconName = getWeatherIconFileName(weatherIcon)
                 val weatherIconResourceId = resources.getIdentifier(weatherIconName, "drawable", packageName)
                 val weatherIconDrawable = ContextCompat.getDrawable(this@MainActivity, weatherIconResourceId)
 
-
-
-                val clouds = weatherData.getJSONObject("clouds")
 
 
                 val timezoneOffset = weatherData.getInt("timezone")
@@ -208,8 +202,7 @@ class MainActivity : AppCompatActivity() {
                     val textViewCity = cityLayout.findViewById<TextView>(R.id.textViewCity)
                     textViewCity.text = location.city
 
-                    val favoritenTempTextView =
-                        cityLayout.findViewById<TextView>(R.id.favoriten_temp)
+                    val favoritenTempTextView = cityLayout.findViewById<TextView>(R.id.favoriten_temp)
                     favoritenTempTextView.text = "--°"
 
                     val timeTextView = cityLayout.findViewById<TextView>(R.id.time)
@@ -253,13 +246,10 @@ class MainActivity : AppCompatActivity() {
         btnGetWeather = findViewById(R.id.btnGetWeather)
         notification = findViewById(R.id.notification)
 
-
         displayCitiesFromDatabase()
 
         progressBar = findViewById(R.id.progressBar)
         exceptionTextView = findViewById(R.id.exceptionTextView)
-
-
         progressBar.visibility = View.VISIBLE
 
 

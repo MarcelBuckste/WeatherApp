@@ -4,16 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import android.location.Address
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationRequest
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -32,7 +29,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class MainActivity2 : AppCompatActivity() {
+class MainActivityLocation : AppCompatActivity() {
 
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001
 
@@ -155,6 +152,7 @@ class MainActivity2 : AppCompatActivity() {
 
         val thread = Thread {
             try {
+                //Daten bedienbar machen
                 val weatherJson = URL(url).readText(Charsets.UTF_8)
                 val weatherData = JSONObject(weatherJson)
                 val main = weatherData.getJSONObject("main")
@@ -162,23 +160,18 @@ class MainActivity2 : AppCompatActivity() {
                 val wind = weatherData.getJSONObject("wind")
                 val sys = weatherData.getJSONObject("sys")
                 val weather = weatherData.getJSONArray("weather").getJSONObject(0)
-
                 val weatherIcon = weather.getString("icon")
                 val weatherIconName = getWeatherIconFileName(weatherIcon)
                 val weatherIconResourceId = resources.getIdentifier(weatherIconName, "drawable", packageName)
-                val weatherIconDrawable = ContextCompat.getDrawable(this@MainActivity2, weatherIconResourceId)
-
-
-
+                val weatherIconDrawable = ContextCompat.getDrawable(this@MainActivityLocation, weatherIconResourceId)
                 val clouds = weatherData.getJSONObject("clouds")
                 val cloudiness = clouds.getInt("all")
-
                 val sunriseTimestamp = sys.getLong("sunrise")
                 val sunsetTimestamp = sys.getLong("sunset")
                 val timezoneOffset = weatherData.getInt("timezone")
                 val dt = weatherData.getLong("dt")
 
-
+                //zeitformate
                 val dtTime = Date((dt + timezoneOffset) * 1000)
                 val sunriseTime = Date((sunriseTimestamp + timezoneOffset) * 1000)
                 val sunsetTime = Date((sunsetTimestamp + timezoneOffset) * 1000)
@@ -186,15 +179,26 @@ class MainActivity2 : AppCompatActivity() {
                 val timeFormat = SimpleDateFormat("HH:mm", Locale.GERMANY)
                 val timeFormat2 = SimpleDateFormat("HH", Locale.GERMANY)
                 val currentTime = timeFormat2.format(dtTime)
-                val isNight = currentTime.toInt() < 6 || currentTime.toInt() >= 22
+
+                //Nachtabfrage
+                val sunriseHour = timeFormat.format(sunriseTime)
+                val sunsetHour = timeFormat.format(sunsetTime)
+                val isNight = currentTime < sunriseHour || currentTime >= sunsetHour
+                val backgroundId = if (isNight) R.drawable.background_night else R.drawable.gradient_background
 
 
+                //Daten zuweisen
                 val sunriseLocalTime = timeFormat.format(sunriseTime) +  " Uhr"
                 val sunsetLocalTime = timeFormat.format(sunsetTime) + " Uhr"
                 val temp = String.format("%.0f", main.getDouble("temp")) + "°C"
                 val humidity = main.getString("humidity") + " %"
                 val address = weatherData.getString("name")
                 val description = weather.getString("description")
+                val windpace = String.format("%.0f", wind.getDouble("speed"))+ " m/s"
+                val country = sys.getString("country")
+                val calculationDate = dateFormat.format(dtTime)
+                val calculationTime = timeFormat.format(dtTime)
+
                 val visibilityformat = visibility/1000
                 if (visibilityformat == 10)
                 {
@@ -205,32 +209,29 @@ class MainActivity2 : AppCompatActivity() {
                     visibilitystring = visibilityformat.toString()+" Km"
                 }
 
-
-                val windpace = String.format("%.0f", wind.getDouble("speed"))+ " m/s"
-                val country = sys.getString("country")
-                val calculationDate = dateFormat.format(dtTime)
-                val calculationTime = timeFormat.format(dtTime)
-
                 val forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=$cityName&lang=de&units=metric&appid=$API_KEY"
                 val forecastJson = URL(forecastUrl).readText(Charsets.UTF_8)
                 val forecastData = JSONObject(forecastJson)
                 val forecastList = forecastData.getJSONArray("list")
 
                 val forecastDateFormat = SimpleDateFormat("EEEE", Locale.GERMAN)
-                val forecastDays = mutableListOf<String>()
+                val forecastDays = arrayListOf<String>()
                 val forecaststate = arrayListOf<String>()
-                val forecastTemperatures = ArrayList<String>()
-                val weatherIconCodes = mutableListOf<String>()
+                val forecastTemperatures = arrayListOf<String>()
+                val weatherIconCodes = arrayListOf<String>()
 
+                //String Schleife
                 for (i in 0 until 5) {
+                    //Jede 3 Stunden gibt es eine Aktualisierung deswegen * 8. 8 Aktualisierungen am Tag um die Daten pro Tag zu bekommen
+                    // 8*3 = 24 Stunden 16*3 = 48 Stunden...
                     val forecastItem = forecastList.getJSONObject(i * 8)
                     val weather = forecastItem.getJSONArray("weather").getJSONObject(0)
                     val iconCode = weather.getString("icon")
                     weatherIconCodes.add(iconCode)
                 }
 
-                val weatherIcons = mutableListOf<Drawable?>()
-
+                val weatherIcons = arrayListOf<Drawable?>()
+                //Png schleife obere getWeatherIconFileName
                 for (iconCode in weatherIconCodes) {
                     val iconFileName = getWeatherIconFileName(iconCode)
                     val resourceId = resources.getIdentifier(iconFileName, "drawable", packageName)
@@ -243,9 +244,7 @@ class MainActivity2 : AppCompatActivity() {
                     }
                 }
 
-
-
-
+                //Wochentag der nächste 4-5 Tage
                 for (i in 0 until 5) {
                     val forecastItem = forecastList.getJSONObject(i * 8)
                     val forecastTimestamp = forecastItem.getLong("dt")
@@ -253,6 +252,7 @@ class MainActivity2 : AppCompatActivity() {
                     val forecastDayOfWeek = forecastDateFormat.format(forecastTime)
                     forecastDays.add(forecastDayOfWeek)
                 }
+                //Tempertur der nächsten 4-5 Tage
                 for (i in 0 until 5) {
                     val forecastDay = forecastList.getJSONObject(i * 8)
                     val temperature = forecastDay.getJSONObject("main")
@@ -261,9 +261,7 @@ class MainActivity2 : AppCompatActivity() {
                     forecastTemperatures.add(temperatureString)
                 }
 
-
-
-
+                //Status der nächsten 5 Tage
                 for (i in 0 until 5) {
                     val forecastDay = forecastList.getJSONObject(i * 8)
                     val weather = forecastDay.getJSONArray("weather").getJSONObject(0)
@@ -271,12 +269,7 @@ class MainActivity2 : AppCompatActivity() {
                     forecaststate.add(forecastdescription)
                 }
 
-
-                val backgroundId = if (isNight) R.drawable.background_night else R.drawable.gradient_background
-
-
                 runOnUiThread {
-
                     findViewById<ImageView>(R.id.overviewIcon).setImageDrawable(weatherIconDrawable)
                     findViewById<View>(R.id.overall).setBackgroundResource(backgroundId)
                     findViewById<TextView>(R.id.forecastday1).text = "Heute"
@@ -302,8 +295,6 @@ class MainActivity2 : AppCompatActivity() {
 
                 }
 
-
-
                 runOnUiThread {
                     findViewById<TextView>(R.id.location).text = address +", " + country
                     findViewById<TextView>(R.id.datetime).text = calculationDate + ", "+ calculationTime + " Uhr"
@@ -323,7 +314,6 @@ class MainActivity2 : AppCompatActivity() {
                 }
             }
         }
-
         thread.start()
     }
 

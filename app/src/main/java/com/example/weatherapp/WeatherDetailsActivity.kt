@@ -35,11 +35,12 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_weather_details)
         val cityName = intent.getStringExtra("city")
-
         btngetlist = findViewById(R.id.btngetlist)
         btnadd = findViewById(R.id.btnadd)
+
 
         btngetlist.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -89,8 +90,6 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 }
             }
         }
-
-
         getWeatherData(cityName)
     }
 
@@ -140,13 +139,13 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
                 val clouds = weatherData.getJSONObject("clouds")
                 val cloudiness = clouds.getInt("all")
-
+                //Zeitabfragen
                 val sunriseTimestamp = sys.getLong("sunrise")
                 val sunsetTimestamp = sys.getLong("sunset")
                 val timezoneOffset = weatherData.getInt("timezone")
                 val dt = weatherData.getLong("dt")
 
-
+                //Zeitformate *1000 in Milisekunden umwandeln, dass das Date arbeiten kann
                 val dtTime = Date((dt + timezoneOffset) * 1000)
                 val sunriseTime = Date((sunriseTimestamp + timezoneOffset) * 1000)
                 val sunsetTime = Date((sunsetTimestamp + timezoneOffset) * 1000)
@@ -156,17 +155,24 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 val currentTime = timeFormat2.format(dtTime)
                 val sunriseHour = timeFormat.format(sunriseTime)
                 val sunsetHour = timeFormat.format(sunsetTime)
+
+                //Überprüfung ob Nacht ist
                 val isNight = currentTime < sunriseHour || currentTime >= sunsetHour
+                val backgroundId = if (isNight) R.drawable.background_night else R.drawable.gradient_background
 
-
+                //Zuordnung Daten
                 val sunriseLocalTime = timeFormat.format(sunriseTime) +  " Uhr"
                 val sunsetLocalTime = timeFormat.format(sunsetTime) + " Uhr"
                 val temp = String.format("%.0f", main.getDouble("temp")) + "°C"
-                val tempMin = "Tiefsttemperatur: " + String.format("%.0f", main.getDouble("temp_min")) + "°C"
-                val tempMax = "Höchsttemperatur: " + String.format("%.0f", main.getDouble("temp_max")) + "°C"
                 val humidity = main.getString("humidity") + " %"
                 val address = weatherData.getString("name")
                 val description = weather.getString("description")
+                val windpace = String.format("%.0f", wind.getDouble("speed"))+ " m/s"
+                val country = sys.getString("country")
+                val calculationDate = dateFormat.format(dtTime)
+                val calculationTime = timeFormat.format(dtTime)
+
+                //Sichtbarkeit wird nur bis 10.000 Meter angezeigt
                 val visibilityformat = visibility/1000
                 if (visibilityformat == 10)
                 {
@@ -176,23 +182,17 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 {
                     visibilitystring = visibilityformat.toString()+" Km"
                 }
-
-
-                val windpace = String.format("%.0f", wind.getDouble("speed"))+ " m/s"
-                val country = sys.getString("country")
-                val calculationDate = dateFormat.format(dtTime)
-                val calculationTime = timeFormat.format(dtTime)
-
+                //Abfrage für die nächsten Tage
                 val forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=$cityName&lang=de&units=metric&appid=$API_KEY"
                 val forecastJson = URL(forecastUrl).readText(Charsets.UTF_8)
                 val forecastData = JSONObject(forecastJson)
                 val forecastList = forecastData.getJSONArray("list")
 
                 val forecastDateFormat = SimpleDateFormat("EEEE", Locale.GERMAN)
-                val forecastDays = mutableListOf<String>()
+                val forecastDays = arrayListOf<String>()
                 val forecaststate = arrayListOf<String>()
-                val forecastTemperatures = ArrayList<String>()
-                val weatherIconCodes = mutableListOf<String>()
+                val forecastTemperatures = arrayListOf<String>()
+                val weatherIconCodes = arrayListOf<String>()
 
                 for (i in 0 until 5) {
                     val forecastItem = forecastList.getJSONObject(i * 8)
@@ -201,8 +201,9 @@ class WeatherDetailsActivity : AppCompatActivity() {
                     weatherIconCodes.add(iconCode)
                 }
 
-                val weatherIcons = mutableListOf<Drawable?>()
-
+                val weatherIcons = arrayListOf<Drawable?>()
+                //Jede 3 Stunden gibt es eine Aktualisierung deswegen * 8. 8 Aktualisierungen am Tag um die Daten pro Tag zu bekommen
+                // 8*3 = 24 Stunden 16*3 = 48 Stunden...
                 for (iconCode in weatherIconCodes) {
                     val iconFileName = getWeatherIconFileName(iconCode)
                     val resourceId = resources.getIdentifier(iconFileName, "drawable", packageName)
@@ -234,32 +235,12 @@ class WeatherDetailsActivity : AppCompatActivity() {
                 }
 
 
-
-
                 for (i in 0 until 5) {
                     val forecastDay = forecastList.getJSONObject(i * 8)
                     val weather = forecastDay.getJSONArray("weather").getJSONObject(0)
                     val forecastdescription = weather.getString("description")
                     forecaststate.add(forecastdescription)
                 }
-
-
-                val backgroundId = if (isNight) R.drawable.background_night else R.drawable.gradient_background
-                //val backgroundId2 = if (isNight) R.drawable.background_night_v2 else R.drawable.background_weather_detail
-                //val daysContainer: LinearLayout = findViewById(R.id.DaysContainer)
-                //val cloudbackground: LinearLayout = findViewById(R.id.Cloud)
-                //val windContainer: LinearLayout = findViewById(R.id.WindContainer)
-                //val sunriseContainer: LinearLayout = findViewById(R.id.SunriseContainer)
-                //val sunsetContainer: LinearLayout = findViewById(R.id.SunsetContainer)
-                //val humidityContainer: LinearLayout = findViewById(R.id.HumidityContainer)
-                //val visibilityContainer: LinearLayout = findViewById(R.id.VisibilityContainer)
-                //daysContainer.setBackgroundResource(backgroundId2)
-                //cloudbackground.setBackgroundResource(backgroundId2)
-                //windContainer.setBackgroundResource(backgroundId2)
-                //sunriseContainer.setBackgroundResource(backgroundId2)
-                //sunsetContainer.setBackgroundResource(backgroundId2)
-                //humidityContainer.setBackgroundResource(backgroundId2)
-                //visibilityContainer.setBackgroundResource(backgroundId2)
 
 
 
